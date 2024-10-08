@@ -1,0 +1,25 @@
+# Node.js dependencies
+node_modules
+npm-debug.log
+
+# Fichiers de construction
+dist
+build
+
+# Environnement local
+.env
+
+# Fichiers de configuration de l'IDE
+.vscode/
+.idea/
+
+# Fichiers de log
+logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Cache
+.cache/

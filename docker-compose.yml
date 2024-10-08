@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+
+  node:
+    build: 
+      context: ./docker/node # Chemin vers le dossier contenant le Dockerfile de Node.js
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src/api:/home/node/app
+      - /app/node_modules
+    # networks:
+    #   - timer-network
+
+  mongo:
+    build: 
+      context: ./docker/mongodb
+      dockerfile: Dockerfile
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "27017:27017"
+    # Volume pour persister les données MongoDB
+    volumes:
+      - mongo-data:/data/db
+    # networks:
+    #   - timer-network
+    
+  # mongo-express:
+  #   image: mongo-express:1.0.2-20-alpine3.19
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_EXPRESS_USER}
+  #     - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_EXPRESS_PASS}
+  #     - ME_CONFIG_MONGODB_SERVER=mongo
+  #     - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_EXPRESS_USER}
+  #     - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_EXPRESS_PASS}
+  #   networks:
+  #     - timer-network
+
+volumes:
+  mongo-data: 
+    driver: local
+
+networks:
+  timer-network:
+    driver: bridge
+    
