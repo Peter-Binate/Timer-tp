@@ -3,7 +3,7 @@ FROM node:lts-slim
 # Définit le répertoire de travail à l'intérieur du conteneur
 WORKDIR /home/node/app
 
-COPY ../../src/api/package*.json .
+COPY src/api/package*.json ./
 
 # Changer les permissions
 RUN chown -R node:node /home/node/app

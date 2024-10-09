@@ -8,9 +8,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     volumes:
       - ./src/api:/home/node/app
-      - /app/node_modules
     # networks:
     #   - timer-network
 
@@ -18,14 +19,20 @@ services:
     build: 
       context: ./docker/mongodb
       dockerfile: Dockerfile
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    # environment:
+    #   - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+    #   - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     ports:
       - "27017:27017"
     # Volume pour persister les données MongoDB
     volumes:
       - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    env_file:
+      - .env
     # networks:
     #   - timer-network
     
